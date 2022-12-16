@@ -1,0 +1,59 @@
+function result = func(x)
+	result = x*x*x + x + 3;
+endfunction
+
+function result = func1(x)
+	result = 3*x*x + 1;
+endfunction
+
+function result = func2(x)
+	result = 6*x;
+endfunction
+
+function result = newton_method(x0)
+	xi = x0;
+	while abs(func(xi)) > EPS
+    	xi = xi - func(xi)/func1(xi); 
+    end
+    result = xi;
+endfunction
+
+function result = hord_method(start, end)
+	a = start;
+	b = end;
+	while abs(b-a) > EPS
+      c = a - (b-a)*func(a)/(func(b)-func(a));
+	  if (func(c)*func(a) > 0)
+        b = c
+      else 
+        a = c
+      end
+    end
+    result = c;
+endfunction
+
+function result = dihotomii_method(start, end)
+	while abs(start-end) > EPS
+      middle = (start + end) / 2;
+	  if (func(start)*func(middle) < 0)
+        end = middle;
+      else
+        start = middle;
+      end
+    end
+	result = middle;
+endfunction
+
+EPS = 0.0005
+start = -2
+end = -1
+
+newton_method_result = newton_method(start);
+disp("newton_method_result")
+disp(newton_method_result)
+
+disp("hord_method_result")
+disp(hord_method(start, end))
+
+disp("dihotomii_method_result")
+disp(dihotomii_method(start, end))
